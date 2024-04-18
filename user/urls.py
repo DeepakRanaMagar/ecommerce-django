@@ -1,5 +1,7 @@
 from django.urls import path, include
-from .views import index
+from .views import register
+
+
 urlpatterns = [
-    path('', index, name="Landing Page")
+    path('register/', register, name="Register Page")
 ]
