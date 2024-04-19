@@ -3,5 +3,5 @@ from .views import register
 
 
 urlpatterns = [
-    path('register/', register, name="Register Page")
+    path('account/register/', register, name="Register Page")
 ]
