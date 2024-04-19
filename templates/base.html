@@ -1,18 +1,35 @@
-{% load static tailwind_tags %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% tailwind_css %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browse</title>
+    <title>{% block title %}Your Website{% endblock %}</title>
+    <!-- Add your CSS links here -->
+    {% block stylesheets %}
+    <!-- Additional CSS files -->
+    {% endblock %}
 </head>
-
 <body>
     <header>
-        
+        <nav>
+            <!-- Your navigation menu goes here -->
+            {% comment %} <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul> {% endcomment %}
+        </nav>
     </header>
-</body>
 
+    <main>
+        {% block content %}
+        <!-- Content of child templates will be inserted here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+        <!-- Your footer content goes here -->
+        <p>&copy; {% now "Y" %} Your Website</p>
+    </footer>
+</body>
 </html>

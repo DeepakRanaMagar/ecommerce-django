@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'accounts.apps.AccountsConfig',
+    'core.apps.CoreConfig',
 ]
 TAILWIND_APP_NAME = 'user'
 
