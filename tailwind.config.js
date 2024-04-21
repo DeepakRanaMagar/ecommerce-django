@@ -4,7 +4,11 @@ module.exports = {
     './templates/**/*.{htm, js}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        display: ["Gloock", serif],
+      }
+    },
   },
   plugins: [],
 }

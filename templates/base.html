@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Browse{% endblock %}</title>
     <!-- Add your CSS links here -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet">
+    
+    
     
     {% block stylesheets %}
     <!-- Additional CSS files -->
@@ -36,8 +41,12 @@
     </main>
 
     <footer>
+        {% block footer %}
+        
         <!-- Your footer content goes here -->
         <p>&copy; {% now "Y" %} Browse</p>
+        
+        {% endblock footer %}
     </footer>
 
 </body>

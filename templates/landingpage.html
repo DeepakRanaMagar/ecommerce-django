@@ -8,10 +8,19 @@
     <p>This is the landing page of your website.</p>
     <p>Feel free to explore!</p>
 </div> {% endcomment %}
-<div class="border-8 border-red-500">
-    <img src="/static/img/background.jpeg" alt="" srcset="">
+
+<div class="relative">
+    <img src="/static/img/background.jpeg" alt="Background Image" class="w-full h-auto opacity-10">
+    <div class="absolute inset-0 flex items-center justify-center bg-opacity-50">
+        <h1 class="text-lg font-bold font-display">BROWSE</h1>
+    </div>
 </div>
-
-
-
 {% endblock %}
+
+
+{% block footer %}
+  <div class="border-8">
+    Welcome to Browse
+
+  </div>
+{% endblock footer %}
