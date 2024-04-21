@@ -26,14 +26,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'tailwind',
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
 
     'django_browser_reload',
 ]
 
-TAILWIND_APP_NAME = 'user'
+TAILWIND_APP_NAME = 'core'
 
 INTERNAL_IPS = [
     "127.0.0.1",
