@@ -1,12 +1,21 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+from .models import Customer, Merchant
 
-from .models import CustomUser
-# from .forms import CustomUserCreationForm, CustomUserChangeForm
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ['dob']
 
-# @admin.register(CustomUser)
-# class AdminCustomUser(UserAdmin):
-#     add_form = CustomUserCreationForm
-#     form = CustomUserChangeForm
-#     model = CustomUser
-#     list_display = ['email', 'username']
+'''
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ['get_full_name', 'dob']  # Add 'get_full_name' to display first name and last name
+
+    def get_full_name(self, obj):
+        return obj.user.get_full_name()  # Accessing the user's full name
+    get_full_name.short_description = 'Full Name'  # Customizing the column name in the admin panel
+
+'''
+
+
+@admin.register(Merchant)
+class MerchantAdmin(admin.ModelAdmin):
+    list_display = ['merchant_name']

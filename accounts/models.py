@@ -1,12 +1,18 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import User
+from django.utils.translation import gettext as _
 
-class CustomUser(AbstractUser):
-    username = models.CharField(max_length=100, unique=True)
-    first_name = models.CharField(max_length = 150)
-    last_name = models.CharField(max_length = 150)
-    phone_number = models.CharField(max_length=10, blank=True)
-    date_of_birth = models.DateField(auto_now=True)
+class Customer(models.Model):
+    user = models.OneToOneField(User, verbose_name=_("User"), on_delete=models.CASCADE)
+    dob = models.DateField(_("date of birth"), auto_now=False, auto_now_add=False)
     
     def __str__(self):
-        return self.name
+        return f"{self.first_name} {self.last_name}"
+    
+class Merchant(models.Model):
+    user = models.OneToOneField(User, verbose_name=_(""), on_delete=models.CASCADE)
+    merchant_name = models.CharField(_("merchant name"), max_length=50)
+    pan_no = models.IntegerField(_("Pan No"))
+
+    def __str__(self): 
+        return f"{self.merchant_name}"
