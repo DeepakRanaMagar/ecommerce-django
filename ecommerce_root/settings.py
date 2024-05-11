@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-&i4(s)c$^@&+38l4793d-n!yo!0pa!n^j*mxg401dmcv^$t4-m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*",]
 
 
 # Application definition
@@ -26,10 +26,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tailwind',
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
 
+    'tailwind',
     'django_browser_reload',
 ]
 
