@@ -26,12 +26,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # apps
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
 
-
+    # libs
     'rest_framework',
-    'psycopg2-binary',
+    'psycopg2_binary',
+
+    # css
     'tailwind',
     'django_browser_reload',
 ]
