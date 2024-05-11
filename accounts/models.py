@@ -10,7 +10,7 @@ class Customer(models.Model):
     dob = models.DateField(_("date of birth"), auto_now=False, auto_now_add=False)
     
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.user.first_name} {self.user.last_name}"
     
 class Merchant(models.Model):
     user = models.OneToOneField(User, verbose_name=_(""), on_delete=models.CASCADE)
