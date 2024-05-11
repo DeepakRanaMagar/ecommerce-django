@@ -14,8 +14,6 @@ class CustomerAdmin(admin.ModelAdmin):
     get_full_name.short_description = 'Full Name'  # Customizing the column name in the admin panel
 
 '''
-
-
 @admin.register(Merchant)
 class MerchantAdmin(admin.ModelAdmin):
     list_display = ['merchant_name']
