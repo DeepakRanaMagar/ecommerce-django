@@ -44,10 +44,6 @@ REST_FRAMEWORK = {
 }
 
 
-
-
-
-
 TAILWIND_APP_NAME = 'core'
 
 INTERNAL_IPS = [

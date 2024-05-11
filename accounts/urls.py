@@ -1,5 +1,7 @@
 from django.urls import path, include
-from .views import CustomerRegistrationView
+from .views import CustomerRegistrationView, MerchantRegistrationView
+
 urlpatterns = [
-    path('register/', CustomerRegistrationView.as_view(), name='CustomerRegistration'),
+    path('register/customer/', CustomerRegistrationView.as_view(), name='CustomerRegistration'),
+    path('register/merchant/', MerchantRegistrationView.as_view(), name='MerchantRegistration'),
 ]
