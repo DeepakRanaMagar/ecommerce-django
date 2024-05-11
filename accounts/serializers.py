@@ -15,6 +15,9 @@ class CustomerRegistrationSerializer(serializers.Serializer):
     password = serializers.CharField()
     confirm_password = serializers.CharField()
     dob = serializers.DateField()
+    address1 = serializers.CharField(required=True)
+    address2 = serializers.CharField(required=False)
+
 
     def validate(self, data):
         if data.get("password") != data.get("confirm_password"):
@@ -38,6 +41,8 @@ class CustomerRegistrationSerializer(serializers.Serializer):
             customer = Customer.objects.create(
                 user = user,
                 dob = self.validated_data['dob'],
+                address1 = self.validated_data['address1'],
+                address2 = self.validated_data['address2'],
             )
         except Exception as e:
             raise e
@@ -54,7 +59,9 @@ class MerchantRegistrationSerializer(serializers.Serializer):
     password = serializers.CharField()
     confirm_password = serializers.CharField()
     pan_no = serializers.IntegerField()
-
+    address1 = serializers.CharField(required=True)
+    address2 = serializers.CharField(required=False)
+    
     def validate(self, data):
         if data.get("password") != data.get("confirm_password"):
             raise serializers.ValidationError("Incorrect Password.")
@@ -77,7 +84,9 @@ class MerchantRegistrationSerializer(serializers.Serializer):
             merchant = Merchant.objects.create(
                 user = user,
                 merchant_name = self.validated_data['merchant_name'],
-                pan_no = self.validated_data['pan_no']
+                pan_no = self.validated_data['pan_no'],
+                address1 = self.validated_data['address1'],
+                address2 = self.validated_data['address2'],
             )
         except Exception as e:
             raise e
