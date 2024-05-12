@@ -26,17 +26,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # apps
+    
+
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
 
-    # libs
     'rest_framework',
-    'psycopg2_binary',
 
-    # css
-    'tailwind',
-    'django_browser_reload',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
@@ -47,18 +43,10 @@ REST_FRAMEWORK = {
     ),
 }
 
-
-TAILWIND_APP_NAME = 'core'
-
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    "django_browser_reload.middleware.BrowserReloadMiddleware",
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -90,22 +78,22 @@ WSGI_APPLICATION = 'ecommerce_root.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ecommerce_db',
-        'USER': 'ecommerce_admin',
-        'PASSWORD': 'ecommerce_admin',
-        'HOST': '127.0.0.1',
-        'PORT': "5432",
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'ecommerce_db',
+#         'USER': 'ecommerce_admin',
+#         'PASSWORD': 'ecommerce_admin',
+#         'HOST': '127.0.0.1',
+#         'PORT': "5432",
+#     }
+# }
 
 
 # Password validation
