@@ -9,8 +9,8 @@ class Catalog(models.Model):
         return self.name
 
 class SubCatalog(models.Model):
-    Catalog = models.ForeignKey(Catalog, verbose_name=_("Sub Catalog"), on_delete=models.CASCADE)
-    name = models.CharField(_("sc name"), max_length=50)
+    Catalog = models.ForeignKey(Catalog, verbose_name=_("Catalog"), on_delete=models.CASCADE)
+    name = models.CharField(_("Sub Catalog"), max_length=50)
 
     def __str__(self):
         return self.name

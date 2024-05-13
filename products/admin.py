@@ -7,7 +7,7 @@ class CatalogAdmin(admin.ModelAdmin):
 
 @admin.register(SubCatalog)
 class SubCatalogAdmin(admin.ModelAdmin):
-    list_display = ['get_catalog','name']
+    list_display = ['Catalog','name']
 
-    def get_catalog(self, obj):
-        return self.obj.Catalog.name
+    def Catalog(self, obj):
+        return obj.Catalog.name
