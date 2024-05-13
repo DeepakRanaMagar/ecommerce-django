@@ -30,6 +30,7 @@ INSTALLED_APPS = [
 
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
+    'products.apps.ProductsConfig',
 
     'rest_framework',
 
