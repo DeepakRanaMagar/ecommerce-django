@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Catalog, SubCatalog
+from .models import Catalog, SubCatalog, Product
 
 @admin.register(Catalog)
 class CatalogAdmin(admin.ModelAdmin):
@@ -11,3 +11,10 @@ class SubCatalogAdmin(admin.ModelAdmin):
 
     def Catalog(self, obj):
         return obj.Catalog.name
+    
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ["Category","name", "price"]
+
+    def Category(self, obj):
+        return obj.SubCatalog.name
