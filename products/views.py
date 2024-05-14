@@ -10,6 +10,6 @@ class ProductView(APIView):
     
     def get(self, request):
         queryset = Product.objects.all()
-        serializer = ProductSerializer(queryset)
+        serializer = ProductSerializer(queryset, many=True)
         return JsonResponse(serializer.data)
 
