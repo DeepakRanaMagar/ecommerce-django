@@ -35,3 +35,7 @@ class SubCatalogView(APIView):
         queryset = SubCatalog.objects.all()
         serializer = SubCatalogSerializer(queryset, many=True)
         return Response(serializer.data)
+
+'''
+    To get the PRODUCT DETAILS from the merchant 
+'''

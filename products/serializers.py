@@ -23,7 +23,6 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ['category','name', 'description', 'price']
 
-
 '''
-    serializing data for product detail comming from the request
+    serializing data for PRODUCT DETAILS comming from the request
 '''

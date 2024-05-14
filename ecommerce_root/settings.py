@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
     'products.apps.ProductsConfig',
+    'product_merchant.apps.ProductMerchantConfig',
 
     'rest_framework',
 
