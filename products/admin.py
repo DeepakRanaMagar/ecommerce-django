@@ -10,6 +10,7 @@ class CatalogAdmin(admin.ModelAdmin):
 class SubCatalogAdmin(admin.ModelAdmin):
     list_display = ['Catalog','name']
     search_fields = ['Catalog','name']
+    
     def Catalog(self, obj):
         return obj.Catalog.name
     
@@ -19,5 +20,5 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ["name", "price"]
 
     # def Category(self, obj):
-    #     return obj.SubCatalog.name
+    #     return obj.SubCatalog
     
