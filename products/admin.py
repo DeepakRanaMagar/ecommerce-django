@@ -15,9 +15,9 @@ class SubCatalogAdmin(admin.ModelAdmin):
     
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["Category","name", "price"]
-    search_fields = ["Category","name", "price"]
+    list_display = ["name", "price"]
+    search_fields = ["name", "price"]
 
-    def Category(self, obj):
-        return obj.SubCatalog.name
+    # def Category(self, obj):
+    #     return obj.SubCatalog.name
     
