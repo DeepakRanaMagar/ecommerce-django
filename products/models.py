@@ -1,12 +1,17 @@
 from django.db import models
 from django.utils.translation import gettext as _ 
 
-
+'''
+    Catalog Model
+'''
 class Catalog(models.Model):
     name = models.CharField(_("name"), max_length=50)
     def __str__(self):
         return self.name
 
+'''
+    Sub - Catalog Model
+'''
 class SubCatalog(models.Model):
     catalog = models.ForeignKey(Catalog, on_delete=models.CASCADE)
     name = models.CharField(_("sub catalog"), max_length=50)
@@ -14,6 +19,9 @@ class SubCatalog(models.Model):
     def __str__(self):
         return self.name
     
+'''
+    Product Model
+'''
 class Product(models.Model):
     category = models.ForeignKey(SubCatalog, on_delete=models.CASCADE)
     name = models.CharField(_("name"), max_length=50)
