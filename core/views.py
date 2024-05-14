@@ -1,4 +1,3 @@
 from django.shortcuts import render
-
-def index(request):
-    return render(request, 'landingpage.html')
+from .serializers import ProductSerializer
+from rest_framework.permissions import IsAuthenticated

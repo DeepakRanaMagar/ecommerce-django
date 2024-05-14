@@ -82,7 +82,6 @@ class MerchantRegistrationSerializer(serializers.Serializer):
                 last_name = self.validated_data['last_name'],
                 password = make_password(self.validated_data['email'])
             )
-
             merchant = Merchant.objects.create(
                 user = user,
                 merchant_name = self.validated_data['merchant_name'],
