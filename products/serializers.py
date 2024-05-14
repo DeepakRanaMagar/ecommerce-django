@@ -12,13 +12,18 @@ class CatalogSerializer(serializers.ModelSerializer):
 
 
 class SubCatalogSerializer(serializers.ModelSerializer):
-    # Catalog = CatalogSerializer()
+    catalog = CatalogSerializer(read_only=True)
     class Meta:
         model = SubCatalog
-        fields = '__all__'
+        fields = ['id', 'name', 'catalog']
 
 class ProductSerializer(serializers.ModelSerializer):
     category = SubCatalogSerializer(read_only=True)
     class Meta:
         model = Product
         fields = ['category','name', 'description', 'price']
+
+
+'''
+    serializing data for product detail comming from the request
+'''
