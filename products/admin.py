@@ -8,17 +8,17 @@ class CatalogAdmin(admin.ModelAdmin):
     
 @admin.register(SubCatalog)
 class SubCatalogAdmin(admin.ModelAdmin):
-    list_display = ['Catalog','name']
-    search_fields = ['Catalog','name']
+    list_display = ['name']
+    search_fields = ['name']
     
-    def Catalog(self, obj):
-        return obj.Catalog.name
+    # def get_catalog_name(self, obj):
+    #     return obj.Catalog.name
     
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ["name", "price"]
     search_fields = ["name", "price"]
 
-    # def Category(self, obj):
-    #     return obj.SubCatalog
+    def Category(self, obj):
+        return obj.SubCatalog
     
