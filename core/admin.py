@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import Product
 
-# @admin.register(Product)
-# class ProductAdmin(admin.ModelAdmin):
-#     list_display = ['name', 'price', 'category', 'image']
-#     search_display = ['name', 'price', 'category']
-
+# To customize the Django Admin panel
+admin.site.site_header = 'E-commerce'                    
+admin.site.index_title = 'Dashboard'                 
+admin.site.site_title = 'E-commerce Administration'
