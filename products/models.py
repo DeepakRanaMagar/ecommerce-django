@@ -3,13 +3,15 @@ from django.utils.translation import gettext as _
 
 
 class Catalog(models.Model):
+    catalog_id = models.PositiveBigIntegerField(primary_key=True)
     name = models.CharField(_("name"), max_length=50)
 
     def __str__(self):
         return self.name
 
 class SubCatalog(models.Model):
-    catalog = models.ForeignKey(Catalog, verbose_name=_("catalog"), on_delete=models.CASCADE)
+    catalog = models.ForeignKey(Catalog, verbose_name=_("Catalog"), on_delete=models.CASCADE)
+    subcatalog_id = models.PositiveBigIntegerField(primary_key=True)
     name = models.CharField(_("sub catalog"), max_length=50)
 
     def __str__(self):
