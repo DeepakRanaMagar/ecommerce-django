@@ -9,14 +9,14 @@ class Catalog(models.Model):
         return self.name
 
 class SubCatalog(models.Model):
-    Catalog = models.ForeignKey(Catalog, verbose_name=_("Catalog"), on_delete=models.CASCADE)
-    name = models.CharField(_("Sub Catalog"), max_length=50)
+    catalog = models.ForeignKey(Catalog, verbose_name=_("catalog"), on_delete=models.CASCADE)
+    name = models.CharField(_("sub catalog"), max_length=50)
 
     def __str__(self):
         return self.name
     
 class Product(models.Model):
-    category = models.ForeignKey(SubCatalog, verbose_name=_("Category"), on_delete=models.CASCADE)
+    category = models.ForeignKey(SubCatalog, verbose_name=_("category"), on_delete=models.CASCADE)
     name = models.CharField(_("name"), max_length=50)
     description = models.TextField(_("description"))
     price = models.DecimalField(_("price"), max_digits=6, decimal_places=2)
