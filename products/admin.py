@@ -4,17 +4,15 @@ from .models import Catalog, SubCatalog, Product
 @admin.register(Catalog)
 class CatalogAdmin(admin.ModelAdmin):
     list_display = ['name']
-
+    search_fields = ['name']
+    
 @admin.register(SubCatalog)
 class SubCatalogAdmin(admin.ModelAdmin):
-    list_display = ['Catalog','name']
+    list_display = ['catalog','name']
+    search_fields = ['name']
 
-    def Catalog(self, obj):
-        return obj.Catalog.name
-    
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["Category","name", "price"]
+    list_display = ["category","name", "price"]
+    search_fields = ["name", "price"]
 
-    def Category(self, obj):
-        return obj.SubCatalog.name
