@@ -16,7 +16,7 @@ class SubCatalog(models.Model):
         return self.name
     
 class Product(models.Model):
-    Category = models.ForeignKey(SubCatalog, verbose_name=_("Category"), on_delete=models.CASCADE)
+    category = models.ForeignKey(SubCatalog, verbose_name=_("Category"), on_delete=models.CASCADE)
     name = models.CharField(_("name"), max_length=50)
     description = models.TextField(_("description"))
     price = models.DecimalField(_("price"), max_digits=6, decimal_places=2)
