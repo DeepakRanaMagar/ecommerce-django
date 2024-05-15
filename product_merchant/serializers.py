@@ -6,6 +6,8 @@ from products.models import Product
 '''
 
 class ProductDetailSerializer(serializers.Serializer):
+    # Input fields for the Merchant
+    
     name = serializers.CharField()
     description = serializers.CharField()
     price = serializers.DecimalField(max_digits=6, decimal_places=2)
