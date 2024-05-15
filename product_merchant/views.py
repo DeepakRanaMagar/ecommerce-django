@@ -11,7 +11,7 @@ class ProductDetailView(APIView):
 
     def post(self, request):
         merchant_id = request.user.id
-
+        pass
         # if merchant_id != 
 
 
