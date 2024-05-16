@@ -36,7 +36,7 @@ class CustomerRegistrationSerializer(serializers.Serializer):
                 username = self.validated_data['username'],
                 first_name = self.validated_data['first_name'],
                 last_name = self.validated_data['last_name'],
-                password = make_password(self.validated_data['email'])
+                password = make_password(self.validated_data['password'])
             )
 
             customer = Customer.objects.create(
@@ -80,7 +80,7 @@ class MerchantRegistrationSerializer(serializers.Serializer):
                 username = self.validated_data['username'],
                 first_name = self.validated_data['first_name'],
                 last_name = self.validated_data['last_name'],
-                password = make_password(self.validated_data['email'])
+                password = make_password(self.validated_data['password'])
             )
             merchant = Merchant.objects.create(
                 user = user,
@@ -89,5 +89,9 @@ class MerchantRegistrationSerializer(serializers.Serializer):
                 address1 = self.validated_data['address1'],
                 address2 = self.validated_data['address2'],
             )
+            if 'profile_pic' in self.validated_data:
+                merchant.profile_pic = self.validated_data['profile_pic']
+                merchant.save()
+
         except Exception as e:
-            raise e
+            raise serializers.ValidationError(f"An error occurred: {e}")
