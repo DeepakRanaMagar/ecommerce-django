@@ -32,19 +32,21 @@ class CatalogView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
 class SubCatalogView(APIView):
-    permission_classes = [IsAdminUser, ] #allows only the admin to insert or update Catalogs
+    permission_classes = [IsAdminUser, ]    #allows only the admin to insert or update Catalogs
 
     def post(self, request):
-        serializer = SubCatalogSerializer(data=request.data) #request.data is the data from the front end
+        serializer = SubCatalogSerializer(data=request.data)    #request.data is the data from the front end
         
-        if serializer.is_valid():  # to check the validity of serialized data
+        if serializer.is_valid():   # to check the validity of serialized data
             try:
                 serializer.save()  # saves the serialized data
                 return Response("Successfully Updated the Catalog", status=status.HTTP_201_CREATED)
             
             except IntegrityError: #Validation for the Catalog fields
-                return Response(status=status.HTTP_400_BAD_REQUEST)
+                return Response('hhhhhhheeeeeee',status=status.HTTP_400_BAD_REQUEST)
             
             except Exception as e:
                 return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)

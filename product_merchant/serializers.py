@@ -46,7 +46,8 @@ existing_subcatalog_list = [item.name for item in existing_subcatalog]    #conve
 print(existing_subcatalog_list)
 
 class SubCatalogSerializer(serializers.Serializer):
-    catalog = serializers.ChoiceField(choices=existing_catalog_list)    #cause we need to select sub-catalogs based on the parent catalogs
+    # catalog = serializers.ChoiceField(choices=existing_catalog_list)    #cause we need to select sub-catalogs based on the parent catalogs
+    catalog = serializers.PrimaryKeyRelatedField(queryset=Catalog.objects.all())
     name = serializers.CharField()  #name of sub-catalog that comes from the request
     
     def validate(self, data):   # for the validation of catalog name 
@@ -57,7 +58,7 @@ class SubCatalogSerializer(serializers.Serializer):
             )
         return data
 
-    @transaction.atomic
+    @transaction.atomic #atomic db
     def save(self): #saving the serialized data
         name = self.validated_data['name']
         try:
