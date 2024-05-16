@@ -73,21 +73,25 @@ class ProductDetailSerializer(serializers.Serializer):
     name = serializers.CharField()  #name of the product
     description = serializers.CharField()
     price = serializers.DecimalField(max_digits=6, decimal_places=2)    #price of the product
-    image_width = serializers.IntegerField(required=False)
-    image_height = serializers.IntegerField(required=False)
-    image = serializers.ImageField(required=False)
+    image_width = serializers.IntegerField(required=False, allow_null=True)
+    image_height = serializers.IntegerField(required=False, allow_null=True)
+    image = serializers.ImageField(required=False, allow_null=True)
     
+
+
+
+
     @transaction.atomic # To create the db save transaction atomic
     def save(self):
         try: 
             product = Product.objects.create(
-                category = self.category,
-                name = self.name,
-                description = self.description,
-                price = self.price,
-                image_width = self.image_width,
-                image_height = self.image_height,
-                image = self.image
+                category = self.validated_data['category'], #validated is import for this save() method
+                name = self.validated_data['name'],
+                description = self.validated_data['description'],
+                price = self.validated_data['price'],
+                image_width = self.validated_data['image_width'],
+                image_height = self.validated_data['image_height'],
+                image = self.validated_data['image']
             )
         except Exception as e: 
             raise e

@@ -74,9 +74,10 @@ class ProductDetailView(APIView):
                         "Successfull updated the detail for your Product.", status=status.HTTP_201_CREATED
                     )
                 except Exception as e:
-                    raise e
+                    return Response('Error during save: {}'.format(str(e)), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                
             return Response(
-                "Serializer validation failed.", status=status.HTTP_400_BAD_REQUEST
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
         return Response(
             "Customers arenot allowed to update product details",
