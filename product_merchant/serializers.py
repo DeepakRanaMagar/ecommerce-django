@@ -44,7 +44,7 @@ class CatalogSerializer(serializers.Serializer):
 class SubCatalogSerializer(serializers.Serializer):
     catalog = serializers.ChoiceField(choices=existing_catalog_list)
     name = serializers.CharField()
-
+    
 
 
 # catalog = Catalog.objects.all()
