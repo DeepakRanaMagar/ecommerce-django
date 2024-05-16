@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from accounts.models import Merchant
-from .serializers import CatalogSerializer, SubCatalogSerializer
+from .serializers import CatalogSerializer, SubCatalogSerializer, ProductDetailSerializer
 from django.db import IntegrityError
 
 from rest_framework.response import Response
@@ -43,7 +43,7 @@ class SubCatalogView(APIView):
         if serializer.is_valid():   # to check the validity of serialized data
             try:
                 serializer.save()  # saves the serialized data
-                return Response("Successfully Updated the Catalog", status=status.HTTP_201_CREATED)
+                return Response("Successfully updated the Catalog", status=status.HTTP_201_CREATED)
             
             except IntegrityError: #Validation for the Catalog fields
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -53,13 +53,40 @@ class SubCatalogView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+'''
+    Product Detail 
+'''
 class ProductDetailView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        merchant_username = request.user.username
-        # return Response(merchant_username)
-        
+        merchant_id = request.user.id
+        merchant = Merchant.objects.filter(user_id = merchant_id)
+        if merchant:
+            serializer = ProductDetailSerializer(data=request.data)
+
+            if serializer.is_valid():
+                try:
+                    serializer.save()
+                    return Response(
+                        "Successfull updated the detail for your Product.", status=status.HTTP_201_CREATED
+                    )
+                except Exception as e:
+                    return Response('Error during save: {}'.format(str(e)), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )
+        return Response(
+            "Customers arenot allowed to update product details",
+            status= status.HTTP_403_FORBIDDEN
+        )
+
+
+
+
 
 
 
