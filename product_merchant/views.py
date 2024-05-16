@@ -19,8 +19,10 @@ class CatalogView(APIView):
             try:
                 serializer.save()  # saves the serialized data
                 return Response("Successfully Updated the Catalog", status=status.HTTP_201_CREATED)
-            except IntegrityError:
+            
+            except IntegrityError: #Validation for the Catalog fields
                 return Response(status=status.HTTP_400_BAD_REQUEST)
+            
             except Exception as e:
                 return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
