@@ -14,6 +14,7 @@ from rest_framework.response import Response
 existing_catalog = Catalog.objects.all()    #query to fetch existing objects of catalog
 existing_catalog_list = [item.name for item in existing_catalog]    #converting into list
 # print(existing_catalog_list)
+
 class CatalogSerializer(serializers.Serializer):
     name = serializers.CharField()
 
@@ -77,10 +78,7 @@ class ProductDetailSerializer(serializers.Serializer):
     image_height = serializers.IntegerField(required=False, allow_null=True)
     image = serializers.ImageField(required=False, allow_null=True)
     
-
-
-
-
+    
     @transaction.atomic # To create the db save transaction atomic
     def save(self):
         try: 

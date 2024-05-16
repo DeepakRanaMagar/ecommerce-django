@@ -82,8 +82,9 @@ class ProductDetailView(APIView):
                 serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
         return Response(
-            "Customers are not allowed to update Product details",
-            status= status.HTTP_403_FORBIDDEN
+            {
+                "Customers are not allowed to update Product details"
+            }, status= status.HTTP_403_FORBIDDEN
         )
 
 
