@@ -27,13 +27,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'rest_framework',
 
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
     'products.apps.ProductsConfig',
     'product_merchant.apps.ProductMerchantConfig',
 
-    'rest_framework',
 
 ]
 REST_FRAMEWORK = {
@@ -86,6 +86,8 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',

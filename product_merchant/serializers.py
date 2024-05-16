@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from products.models import Product, Catalog, SubCatalog
+# from products.models import Product, Catalog, SubCatalog
 from django.db import transaction
 
 '''
@@ -17,13 +17,13 @@ from django.db import transaction
 #         except Exception as e: 
 #             raise serializers.ValidationError('error', e)
 
-catalog = Catalog.objects.all()
-catalog_list = [item.name for item in catalog]
-# print(catalog_list)
+# catalog = Catalog.objects.all()
+# catalog_list = [item.name for item in catalog]
+# # print(catalog_list)
 
-subcatalog = SubCatalog.objects.all()
-subcatalog_list = [item.name for item in subcatalog]
-print(subcatalog_list)
+# subcatalog = SubCatalog.objects.all()
+# subcatalog_list = [item.name for item in subcatalog]
+# print(subcatalog_list)
 
 
 class ProductDetailSerializer(serializers.Serializer):
@@ -31,7 +31,7 @@ class ProductDetailSerializer(serializers.Serializer):
     # catalog = serializers.ChoiceField(choices=catalog_list)
     # subcatalog = serializers.ChoiceField(choices=subcatalog_list)
     
-    category = serializers.ChoiceField(choices=subcatalog_list)
+    # category = serializers.ChoiceField(choices=subcatalog_list)
     name = serializers.CharField()
     description = serializers.CharField()
     price = serializers.DecimalField(max_digits=6, decimal_places=2)
