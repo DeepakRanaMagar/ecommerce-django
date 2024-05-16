@@ -41,9 +41,9 @@ class CatalogSerializer(serializers.Serializer):
 '''
     serialization for the sub-catalog fields that is sent from the front end
 '''
-existing_subcatalog = SubCatalog.objects.all()    #query to fetch existing objects of sub-catalog
-existing_subcatalog_list = [item.name for item in existing_subcatalog]    #converting into list
-print(existing_subcatalog_list)
+# existing_subcatalog = SubCatalog.objects.all()    #query to fetch existing objects of sub-catalog
+# existing_subcatalog_list = [item.name for item in existing_subcatalog]    #converting into list
+# print(existing_subcatalog_list)
 
 class SubCatalogSerializer(serializers.Serializer):
     # catalog = serializers.ChoiceField(choices=existing_catalog_list)    #cause we need to select sub-catalogs based on the parent catalogs
@@ -52,17 +52,18 @@ class SubCatalogSerializer(serializers.Serializer):
     
     def validate(self, data):   # for the validation of catalog name 
         incoming_name = data.get("name")    #input name of catalog from the front end
-        if incoming_name in existing_subcatalog_list:  #validation condition
-            raise serializers.ValidationError(
-                'SubCatalog already exists'
-            )
+        existing_subcatalog_list = SubCatalog.objects.values_list('name', flat=True)  # Dynamic fetch
+        if incoming_name in existing_subcatalog_list:
+            raise serializers.ValidationError('SubCatalog already exists')
         return data
 
     @transaction.atomic #atomic db
     def save(self): #saving the serialized data
+        catalog = self.validated_data['catalog']
         name = self.validated_data['name']
         try:
             subcatalog = SubCatalog.objects.create(
+                catalog =catalog,
                 name = name,
             )
         except Exception as e:
