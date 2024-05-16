@@ -17,12 +17,17 @@ from rest_framework.response import Response
 class CatalogSerializer(serializers.Serializer):
     name = serializers.CharField()
 
-    def validate_name(self, value):
-        if Catalog.objects.filter(name = value).exists():
-            pass
-        else:
-            return value
-    
+    def validate(self, data):
+        incoming_name = data.get("name")
+        existing_catalog = Catalog.objects.all()
+        existing_catalog_list = [item.name for item in existing_catalog]
+        if incoming_name in existing_catalog_list:
+            raise serializers.ValidationError(
+                'Catalog already exists'
+            )
+        return data
+
+
     @transaction.atomic
     def save(self):
         name = self.validated_data['name']

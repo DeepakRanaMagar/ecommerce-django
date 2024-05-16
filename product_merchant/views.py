@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from accounts.models import Merchant
 from .serializers import CatalogSerializer
+from django.db import IntegrityError
+
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
-from accounts.models import Merchant
-
+from rest_framework import status
 
 
 class CatalogView(APIView):
@@ -12,13 +14,17 @@ class CatalogView(APIView):
 
     def post(self, request):
         serializer = CatalogSerializer(data=request.data) #request.data is the data from the front end
-        if serializer.is_valid(): #to check the validity of serialized data
-            try: 
-                serializer.save() #saves the serialized data 
-                return Response("Sucessfully Updated the Catalog")
+        
+        if serializer.is_valid():  # to check the validity of serialized data
+            try:
+                serializer.save()  # saves the serialized data
+                return Response("Successfully Updated the Catalog", status=status.HTTP_201_CREATED)
+            except IntegrityError:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
-                raise e 
-
+                return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
