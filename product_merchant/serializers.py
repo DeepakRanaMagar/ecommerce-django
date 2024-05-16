@@ -1,22 +1,28 @@
-from rest_framework import serializers
 from products.models import Catalog, SubCatalog, Product
 from django.db import transaction
 
+from rest_framework import serializers
+from rest_framework.response import Response
+from rest_framework.validators import UniqueValidator
 '''
     Serialization of the input of the Merchant
 '''
+# catalog_query = Catalog.objects.all()
+# catalog_list = [item.name for item in catalog_query]
+# print(catalog_list)
+
 class CatalogSerializer(serializers.Serializer):
-    name = serializers.CharField()
+    name = serializers.CharField(validators = [UniqueValidator(queryset=Catalog.objects.all())])
+    
     @transaction.atomic
     def save(self):
         try:
             catalog = Catalog.objects.create(
                 name = self.validated_data['name'],
             )
-        except Exception as e: 
-            raise e
-            
-
+        except IntegrityError as e:
+            # Handle unique constraint violation (optional)
+            raise serializers.ValidationError({'name': 'This name is already taken.'})
 # catalog = Catalog.objects.all()
 # catalog_list = [item.name for item in catalog]
 # # print(catalog_list)

@@ -4,7 +4,7 @@ from django.utils.translation import gettext as _
     Catalog Model
 '''
 class Catalog(models.Model):
-    name = models.CharField(_("name"), max_length=50)
+    name = models.CharField(_("name"), max_length=50) #name of the catalog
     
     def __str__(self):
         return self.name
@@ -13,8 +13,8 @@ class Catalog(models.Model):
     Sub - Catalog Model
 '''
 class SubCatalog(models.Model):
-    catalog = models.ForeignKey(Catalog, on_delete=models.CASCADE)
-    name = models.CharField(_("sub catalog"), max_length=50)
+    catalog = models.ForeignKey(Catalog, on_delete=models.CASCADE) #forigen key relation to he catalog (parent)
+    name = models.CharField(_("sub catalog"), max_length=50) #name of the subcatalog
 
     def __str__(self):
         return self.name
@@ -23,7 +23,7 @@ class SubCatalog(models.Model):
     Product Model
 '''
 class Product(models.Model):
-    category = models.ForeignKey(SubCatalog, on_delete=models.CASCADE)
+    category = models.ForeignKey(SubCatalog, on_delete=models.CASCADE) #forigen key relation to he Subcatalog
     name = models.CharField(_("name"), max_length=50)
     description = models.TextField(_("description"))
     price = models.DecimalField(_("price"), max_digits=6, decimal_places=2)

@@ -8,16 +8,14 @@ from accounts.models import Merchant
 
 
 class CatalogView(APIView):
-    permission_classes = [IsAdminUser, ]
+    permission_classes = [IsAdminUser, ] #allows only the admin to insert or update Catalogs
 
     def post(self, request):
-        admin = request.user.username
-        print(request.data)
-        serializer = CatalogSerializer(data=request.data)
-        if serializer.is_valid():
+        serializer = CatalogSerializer(data=request.data) #request.data is the data from the front end
+        if serializer.is_valid(): #to check the validity of serialized data
             try: 
-                serializer.save()
-                return Response("Sucessfully Updated the Catalog with {}".format(request.data))
+                serializer.save() #saves the serialized data 
+                return Response("Sucessfully Updated the Catalog")
             except Exception as e:
                 raise e 
 
