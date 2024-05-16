@@ -59,17 +59,19 @@ class SubCatalogView(APIView):
     Product Detail 
 '''
 class ProductDetailView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]  #allows only authenticated users to POST a request
 
     def post(self, request):
-        merchant_id = request.user.id
-        merchant = Merchant.objects.filter(user_id = merchant_id)
-        if merchant:
-            serializer = ProductDetailSerializer(data=request.data)
+        merchant_id = request.user.id   #fetches the currect user id from the request
 
-            if serializer.is_valid():
+        merchant = Merchant.objects.filter(user_id = merchant_id)   #filters the user based on the user id on Merchant DB
+        
+        if merchant:    #If-condition only for merchants 
+            serializer = ProductDetailSerializer(data=request.data) #passing the request data into the serializer for serialization
+
+            if serializer.is_valid():   #checks the validity 
                 try:
-                    serializer.save()
+                    serializer.save()   #calls the save() in the serializer that is called above i.e line 70
                     return Response(
                         "Successfull updated the detail for your Product.", status=status.HTTP_201_CREATED
                     )
@@ -80,8 +82,9 @@ class ProductDetailView(APIView):
                 serializer.errors, status=status.HTTP_400_BAD_REQUEST
             )
         return Response(
-            "Customers arenot allowed to update product details",
-            status= status.HTTP_403_FORBIDDEN
+            {
+                "Customers are not allowed to update Product details"
+            }, status= status.HTTP_403_FORBIDDEN
         )
 
 

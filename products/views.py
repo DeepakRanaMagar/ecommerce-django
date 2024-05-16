@@ -39,3 +39,10 @@ class SubCatalogView(APIView):
 '''
     To get the PRODUCT DETAILS from the merchant 
 '''
+class SubCatalogView(APIView):
+    permission_classes = [AllowAny, ]
+    
+    def get(self, request):
+        queryset = Product.objects.all()
+        serializer = ProductSerializer(queryset, many=True)
+        return Response(serializer.data)
