@@ -17,6 +17,7 @@ class SubCatalogSerializer(serializers.ModelSerializer):
         model = SubCatalog
         fields = ['id', 'name', 'catalog']
 
+
 class ProductSerializer(serializers.ModelSerializer):
     category = SubCatalogSerializer(read_only=True)
     class Meta:

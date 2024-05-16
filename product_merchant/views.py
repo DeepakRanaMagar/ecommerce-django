@@ -1,21 +1,50 @@
 from django.shortcuts import render
-from .serializers import ProductDetailSerializer
+from .serializers import CatalogSerializer
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from accounts.models import Merchant
 
 
-class ProductDetailView(APIView):
-    permission_classes = [IsAuthenticated]
+
+class CatalogView(APIView):
+    permission_classes = [IsAdminUser, ]
 
     def post(self, request):
-        merchant_id = request.user.id
-        pass
-        # if merchant_id != 
+        admin = request.user.username
+        return Response("HEllo {}".format(admin))
 
 
-        '''
+
+
+
+
+
+
+
+
+
+
+
+
+# class ProductDetailView(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def post(self, request):
+#         merchant_id = request.user.id
+#         pass
+#         # if merchant_id != 
+
+
+
+
+
+
+
+
+
+
+'''
             def post(self, request):
     merchant_id = request.user.id
     
@@ -35,4 +64,4 @@ class ProductDetailView(APIView):
     else:
         return Response({'error': 'Merchant not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        '''
+'''
