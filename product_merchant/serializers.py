@@ -6,17 +6,16 @@ from django.db import transaction
     Serialization of the input of the Merchant
 '''
 class CatalogSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=50)
-
+    name = serializers.CharField()
     @transaction.atomic
     def save(self):
         try:
             catalog = Catalog.objects.create(
-                name=self.name
+                name = self.validated_data['name'],
             )
-            print(catalog)
         except Exception as e: 
-            raise serializers.ValidationError('error', e)
+            raise e
+            
 
 # catalog = Catalog.objects.all()
 # catalog_list = [item.name for item in catalog]

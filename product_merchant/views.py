@@ -12,7 +12,14 @@ class CatalogView(APIView):
 
     def post(self, request):
         admin = request.user.username
-        return Response("HEllo {}".format(admin))
+        print(request.data)
+        serializer = CatalogSerializer(data=request.data)
+        if serializer.is_valid():
+            try: 
+                serializer.save()
+                return Response("Sucessfully Updated the Catalog with {}".format(request.data))
+            except Exception as e:
+                raise e 
 
 
 
