@@ -1,10 +1,12 @@
 from products.models import Catalog, SubCatalog, Product
 from django.db import transaction, IntegrityError
-
+from django.http import HttpResponse
 
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.validators import UniqueValidator
+from rest_framework.response import Response
+
 '''
     Serialization of the input of the Merchant
 '''
@@ -14,18 +16,27 @@ from rest_framework.validators import UniqueValidator
 
 class CatalogSerializer(serializers.Serializer):
     name = serializers.CharField()
+
+    def validate_name(self, value):
+        if Catalog.objects.filter(name = value).exists():
+            pass
+        else:
+            return value
     
     @transaction.atomic
     def save(self):
-            name = self.validated_data['name']
-            print(name)
-            try:
-                catalog = Catalog.objects.create(
-                    name = name,
-                )
-            except IntegrityError as e:
-                # Handle unique constraint violation (optional)
-                raise serializers.ValidationError({'name': 'This name is already taken.'})
+        name = self.validated_data['name']
+        print(name)
+        try:
+            catalog = Catalog.objects.create(
+                name = name,
+            )
+        except Exception as e:
+            raise e
+
+
+
+
 # catalog = Catalog.objects.all()
 # catalog_list = [item.name for item in catalog]
 # # print(catalog_list)
