@@ -9,6 +9,10 @@ from rest_framework.views import APIView
 from rest_framework import status
 
 
+'''
+    View that handles the Catalog POST request only for ADMIN 
+'''
+
 class CatalogView(APIView):
     permission_classes = [IsAdminUser, ] #allows only the admin to insert or update Catalogs
 
