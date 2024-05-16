@@ -13,7 +13,7 @@ class CatalogAdmin(admin.ModelAdmin):
     
 @admin.register(SubCatalog)
 class SubCatalogAdmin(admin.ModelAdmin):
-    list_display = ['catalog','name']
+    list_display = ['name', 'catalog']
     search_fields = ['name']
 
 @admin.register(Product)
