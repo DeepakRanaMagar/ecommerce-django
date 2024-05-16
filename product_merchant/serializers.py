@@ -1,22 +1,46 @@
-from rest_framework import serializers
 from products.models import Catalog, SubCatalog, Product
-from django.db import transaction
+from django.db import transaction, IntegrityError
+from django.http import HttpResponse
+
+from rest_framework import serializers
+from rest_framework.response import Response
+from rest_framework.validators import UniqueValidator
+from rest_framework.response import Response
 
 '''
     Serialization of the input of the Merchant
 '''
+# catalog_query = Catalog.objects.all() 
+# catalog_list = [item.name for item in catalog_query]
+# print(catalog_list)
+
 class CatalogSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=50)
+    name = serializers.CharField()
+
+    def validate(self, data):
+        incoming_name = data.get("name")
+        existing_catalog = Catalog.objects.all()
+        existing_catalog_list = [item.name for item in existing_catalog]
+        if incoming_name in existing_catalog_list:
+            raise serializers.ValidationError(
+                'Catalog already exists'
+            )
+        return data
+
 
     @transaction.atomic
     def save(self):
+        name = self.validated_data['name']
+        print(name)
         try:
             catalog = Catalog.objects.create(
-                name=self.name
+                name = name,
             )
-            print(catalog)
-        except Exception as e: 
-            raise serializers.ValidationError('error', e)
+        except Exception as e:
+            raise e
+
+
+
 
 # catalog = Catalog.objects.all()
 # catalog_list = [item.name for item in catalog]
