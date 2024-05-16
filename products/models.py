@@ -18,7 +18,7 @@ class SubCatalog(models.Model):
 
     def __str__(self):
         return self.name
-    
+        # return f"Catalog name: {self.name}"
 '''
     Product Model
 '''
