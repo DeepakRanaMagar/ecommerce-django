@@ -39,14 +39,10 @@ class CatalogSerializer(serializers.Serializer):
 
 
 '''
-    serialization for the sub-catalog fields that is sent from the front end
+    serialization for the sub-catalog fields that is sent from the front end through request
 '''
-# existing_subcatalog = SubCatalog.objects.all()    #query to fetch existing objects of sub-catalog
-# existing_subcatalog_list = [item.name for item in existing_subcatalog]    #converting into list
-# print(existing_subcatalog_list)
 
 class SubCatalogSerializer(serializers.Serializer):
-    # catalog = serializers.ChoiceField(choices=existing_catalog_list)    #cause we need to select sub-catalogs based on the parent catalogs
     catalog = serializers.PrimaryKeyRelatedField(queryset=Catalog.objects.all())
     name = serializers.CharField()  #name of sub-catalog that comes from the request
     
@@ -59,7 +55,7 @@ class SubCatalogSerializer(serializers.Serializer):
 
     @transaction.atomic #atomic db
     def save(self): #saving the serialized data
-        catalog = self.validated_data['catalog']
+        catalog = self.validated_data['catalog']    #fetching the validated data from the dictionary 
         name = self.validated_data['name']
         try:
             subcatalog = SubCatalog.objects.create(
@@ -68,41 +64,32 @@ class SubCatalogSerializer(serializers.Serializer):
             )
         except Exception as e:
             raise e
+        
+'''
+    serialization of the product detail that is sent through the request
+'''
 
-
-# catalog = Catalog.objects.all()
-# catalog_list = [item.name for item in catalog]
-# # print(catalog_list)
-
-# subcatalog = SubCatalog.objects.all()
-# subcatalog_list = [item.name for item in subcatalog]
-# print(subcatalog_list)
-
-
-# class ProductDetailSerializer(serializers.Serializer):
-#     # Input fields for the Merchant
-#     # catalog = serializers.ChoiceField(choices=catalog_list)
-#     # subcatalog = serializers.ChoiceField(choices=subcatalog_list)
+class ProductDetailSerializer(serializers.Serializer):
+    # Input fields for the Merchant
+    category = serializers.PrimaryKeyRelatedField(queryset = SubCatalog.objects.all())  #PK relation of the category field of the Product detail with the sub category
+    name = serializers.CharField()  #name of the product
+    description = serializers.CharField()
+    price = serializers.DecimalField(max_digits=6, decimal_places=2)    #price of the product
+    image_width = serializers.IntegerField(required=False)
+    image_height = serializers.IntegerField(required=False)
+    image = serializers.ImageField(required=False)
     
-#     # category = serializers.ChoiceField(choices=subcatalog_list)
-#     name = serializers.CharField()
-#     description = serializers.CharField()
-#     price = serializers.DecimalField(max_digits=6, decimal_places=2)
-#     image_width = serializers.IntegerField(required=False)
-#     image_height = serializers.IntegerField(required=False)
-#     image = serializers.ImageField(required=False)
-    
-#     @transaction.atomic # To create the db save transaction atomic
-#     def save(self):
-#         try: 
-#             product = Product.objects.create(
-#                 category = self.category,
-#                 name = self.name,
-#                 description = self.description,
-#                 price = self.price,
-#                 image_width = self.image_width,
-#                 image_height = self.image_height,
-#                 image = self.image
-#             )
-#         except Exception as e: 
-#             raise e
+    @transaction.atomic # To create the db save transaction atomic
+    def save(self):
+        try: 
+            product = Product.objects.create(
+                category = self.category,
+                name = self.name,
+                description = self.description,
+                price = self.price,
+                image_width = self.image_width,
+                image_height = self.image_height,
+                image = self.image
+            )
+        except Exception as e: 
+            raise e

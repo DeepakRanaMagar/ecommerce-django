@@ -46,59 +46,44 @@ class SubCatalogView(APIView):
                 return Response("Successfully Updated the Catalog", status=status.HTTP_201_CREATED)
             
             except IntegrityError: #Validation for the Catalog fields
-                return Response('hhhhhhheeeeeee',status=status.HTTP_400_BAD_REQUEST)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
             
             except Exception as e:
                 return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class ProductDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        merchant_username = request.user.username
+        # return Response(merchant_username)
+        
 
 
 
 
 
 
-
-
-
-
-
-# class ProductDetailView(APIView):
-#     permission_classes = [IsAuthenticated]
-
-#     def post(self, request):
-#         merchant_id = request.user.id
-#         pass
-#         # if merchant_id != 
-
-
-
-
-
-
-
-
-
-
-'''
-            def post(self, request):
-    merchant_id = request.user.id
+# '''
+#             def post(self, request):
+#     merchant_id = request.user.id
     
-    # Assuming you have a Merchant model with a user field
-    merchant = Merchant.objects.filter(user=request.user).first()
+#     # Assuming you have a Merchant model with a user field
+#     merchant = Merchant.objects.filter(user=request.user).first()
     
-    if merchant:
-        merchant_id = merchant.id
+#     if merchant:
+#         merchant_id = merchant.id
         
-        if merchant_id != request.user.id:
-            # Handle the case where the merchant ID is different from the requested user ID
-            return Response({'error': 'Unauthorized access'}, status=status.HTTP_403_FORBIDDEN)
+#         if merchant_id != request.user.id:
+#             # Handle the case where the merchant ID is different from the requested user ID
+#             return Response({'error': 'Unauthorized access'}, status=status.HTTP_403_FORBIDDEN)
         
-        # Rest of your view logic
+#         # Rest of your view logic
         
-        # ...
-    else:
-        return Response({'error': 'Merchant not found'}, status=status.HTTP_404_NOT_FOUND)
+#         # ...
+#     else:
+#         return Response({'error': 'Merchant not found'}, status=status.HTTP_404_NOT_FOUND)
 
-'''
+# '''
