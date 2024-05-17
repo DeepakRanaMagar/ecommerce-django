@@ -143,9 +143,9 @@ class MerchantList(APIView):
         '''
             return all the Merchants
         '''
-        merchants = Merchant.objects.all().values('id', 'user__username')  # Use values or select_related
+        merchants = Merchant.objects.all().values('user', 'user__username')  # Use values or select_related
         merchant_data = [
-                    {'id': merchant['id'], 'username': merchant['user__username']}
+                    {'id': merchant['user'], 'username': merchant['user__username']}
                     for merchant in merchants
                 ]
         return Response(
