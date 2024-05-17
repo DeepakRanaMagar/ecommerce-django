@@ -100,13 +100,17 @@ class MerchantRegistrationSerializer(serializers.Serializer):
     Serializer for Customer Profile
 '''
 class CustomerSerializer(serializers.ModelSerializer):
-    profile_pic = serializers.ImageField(source='customer.profile_pic', required=False)
-    dob = serializers.DateField(source='customer.dob')
-    address1 = serializers.CharField(source='customer.address1', required=False)
-    address2 = serializers.CharField(source='customer.address2', required=False)
+    # profile_pic = serializers.ImageField(source='customer.profile_pic', required=False)
+    # dob = serializers.DateField(source='customer.dob')
+    # address1 = serializers.CharField(source='customer.address1', required=False)
+    # address2 = serializers.CharField(source='customer.address2', required=False)
+    username = serializers.CharField(source='user.username')
+    first_name = serializers.CharField(source='user.first_name')
+    last_name = serializers.CharField(source='user.last_name')
+    email = serializers.EmailField(source='user.email')
 
     class Meta:
-        model = User
+        model = Customer
         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'profile_pic', 'dob', 'address1', 'address2']
 
 class MerchantSerializer(serializers.ModelSerializer):
@@ -119,7 +123,7 @@ class MerchantSerializer(serializers.ModelSerializer):
     first_name = serializers.CharField(source='user.first_name')
     last_name = serializers.CharField(source='user.last_name')
     email = serializers.EmailField(source='user.email')
-    
+
     class Meta:
         model = Merchant
         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'profile_pic', 'merchant_name','pan_no', 'address1', 'address2']
