@@ -95,3 +95,8 @@ class MerchantRegistrationSerializer(serializers.Serializer):
 
         except Exception as e:
             raise serializers.ValidationError(f"An error occurred: {e}")
+
+'''
+    Serializer for Customer Profile
+'''
+# class Customers(serializers.ModelSerializer):

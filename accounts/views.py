@@ -3,12 +3,12 @@ from .serializers import CustomerRegistrationSerializer, MerchantRegistrationSer
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
-
+from .models import Customer, Merchant
 
 '''
     Registration Section
@@ -95,4 +95,42 @@ class UserLogoutView(APIView):
         request.auth.delete()
         return Response(
             {"message": "Successfully logged out"}, status=status.HTTP_200_OK
+        )
+    
+
+'''
+    View to list all the Customer and Merchant users
+'''
+class CustomerList(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        '''
+            return all the customer
+        '''
+        query = Customer.objects.all()
+        customer_id = [Customer.user.id for Customer in query]
+        usernames = [Customer.user.username for Customer in query]
+        return Response(
+            {
+                "id": customer_id,
+                "username": usernames
+            }
+        )
+
+class MerchantList(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        '''
+            return all the Merchants
+        '''
+        query = Merchant.objects.all()
+        merchant_id = [Merchant.user.id for Merchant in query]
+        usernames = [Merchant.user.username for Merchant in query]
+        return Response(
+            {
+                "id": merchant_id,
+                "username": usernames
+            }
         )
