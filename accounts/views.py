@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from .serializers import CustomerRegistrationSerializer, MerchantRegistrationSerializer
+from .serializers import CustomerRegistrationSerializer, MerchantRegistrationSerializer, CustomerSerializer, MerchantSerializer
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
+
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework import status
@@ -9,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from .models import Customer, Merchant
+
 
 '''
     Registration Section
@@ -101,23 +104,38 @@ class UserLogoutView(APIView):
 '''
     View to list all the Customer and Merchant users
 '''
+# class CustomerList(APIView):
+#     permission_classes = [IsAdminUser]
+
+#     def get(self, request):
+#         '''
+#             return all the customer
+#         '''
+#         query = Customer.objects.all()
+#         customer_id = [Customer.user.id for Customer in query]
+#         usernames = [Customer.user.username for Customer in query]
+#         return Response(
+#             {
+#                 "id": customer_id,
+#                 "username": usernames
+#             }
+#         )
 class CustomerList(APIView):
     permission_classes = [IsAdminUser]
 
     def get(self, request):
         '''
-            return all the customer
+            return all the Customers with their usernames
         '''
-        query = Customer.objects.all()
-        customer_id = [Customer.user.id for Customer in query]
-        usernames = [Customer.user.username for Customer in query]
-        return Response(
-            {
-                "id": customer_id,
-                "username": usernames
-            }
-        )
+        customers = Customer.objects.all().values('id', 'user__username')  # Use values or select_related
 
+        customer_data = [
+            {'id': customer['id'], 'username': customer['user__username']}
+            for customer in customers
+        ]
+        return Response(customer_data)
+    
+    
 class MerchantList(APIView):
     permission_classes = [IsAdminUser]
 
@@ -125,14 +143,13 @@ class MerchantList(APIView):
         '''
             return all the Merchants
         '''
-        query = Merchant.objects.all()
-        merchant_id = [Merchant.user.id for Merchant in query]
-        usernames = [Merchant.user.username for Merchant in query]
+        merchants = Merchant.objects.all().values('id', 'user__username')  # Use values or select_related
+        merchant_data = [
+                    {'id': merchant['id'], 'username': merchant['user__username']}
+                    for merchant in merchants
+                ]
         return Response(
-            {
-                "id": merchant_id,
-                "username": usernames
-            }
+            merchant_data
         )
     
 
@@ -143,12 +160,31 @@ class MerchantList(APIView):
 class CustomerDetails(APIView):
     permission_classes = [IsAdminUser]
 
-    def get(request, pk=None):
-        if pk:
-            customer = Customer.objects.filter(pk=pk).first()
+    def get(self, request, pk):
+        try:
+            customer_detail = Customer.objects.get(user_id=pk)
+        except Customer.DoesNotExist:
             return Response(
-                customer
+                {"detail": "Customer isn't registered yet"},
+                status=status.HTTP_404_NOT_FOUND
             )
-        return Response(
-            "Customer isn't registered yet."
-        )
+
+        serializer = CustomerSerializer(customer_detail.user)
+        return Response(serializer.data)
+
+
+class MerchantDetails(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, pk):
+        try:
+            merchant = Merchant.objects.get(user_id=pk)
+        except Exception as e:    
+            return Response(
+                {
+                    "detail": "Merchant isn't registered yet"
+                }, status= status.HTTP_404_NOT_FOUND
+            )
+        serializer = MerchantSerializer(merchant)
+        return Response(serializer.data)
+        
