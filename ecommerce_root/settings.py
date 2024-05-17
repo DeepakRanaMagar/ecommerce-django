@@ -34,8 +34,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'products.apps.ProductsConfig',
     'product_merchant.apps.ProductMerchantConfig',
-
-
+    'cart.apps.CartConfig',
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES':(
