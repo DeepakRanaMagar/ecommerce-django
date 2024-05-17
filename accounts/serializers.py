@@ -100,3 +100,7 @@ class MerchantRegistrationSerializer(serializers.Serializer):
     Serializer for Customer Profile
 '''
 # class Customers(serializers.ModelSerializer):
+    
+#     class Meta: 
+#         model = Customer
+#         fields = '__all__'

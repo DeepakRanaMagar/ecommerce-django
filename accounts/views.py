@@ -134,3 +134,21 @@ class MerchantList(APIView):
                 "username": usernames
             }
         )
+    
+
+'''
+    View to return Details of the particular Customer and Merchant
+'''
+
+class CustomerDetails(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(request, pk=None):
+        if pk:
+            customer = Customer.objects.filter(pk=pk).first()
+            return Response(
+                customer
+            )
+        return Response(
+            "Customer isn't registered yet."
+        )
