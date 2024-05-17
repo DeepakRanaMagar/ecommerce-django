@@ -1,13 +1,16 @@
 from django.shortcuts import render
-from .serializers import CustomerRegistrationSerializer, MerchantRegistrationSerializer
+from .serializers import CustomerRegistrationSerializer, MerchantRegistrationSerializer, CustomerSerializer, MerchantSerializer
 from django.http import JsonResponse
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
+
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
+from .models import Customer, Merchant
 
 
 '''
@@ -96,3 +99,92 @@ class UserLogoutView(APIView):
         return Response(
             {"message": "Successfully logged out"}, status=status.HTTP_200_OK
         )
+    
+
+'''
+    View to list all the Customer and Merchant users
+'''
+# class CustomerList(APIView):
+#     permission_classes = [IsAdminUser]
+
+#     def get(self, request):
+#         '''
+#             return all the customer
+#         '''
+#         query = Customer.objects.all()
+#         customer_id = [Customer.user.id for Customer in query]
+#         usernames = [Customer.user.username for Customer in query]
+#         return Response(
+#             {
+#                 "id": customer_id,
+#                 "username": usernames
+#             }
+#         )
+class CustomerList(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        '''
+            return all the Customers with their usernames
+        '''
+        customers = Customer.objects.all().values('id', 'user__username')  # Use values or select_related
+
+        customer_data = [
+            {'id': customer['id'], 'username': customer['user__username']}
+            for customer in customers
+        ]
+        return Response(customer_data)
+    
+    
+class MerchantList(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        '''
+            return all the Merchants
+        '''
+        merchants = Merchant.objects.all().values('id', 'user__username')  # Use values or select_related
+        merchant_data = [
+                    {'id': merchant['id'], 'username': merchant['user__username']}
+                    for merchant in merchants
+                ]
+        return Response(
+            merchant_data
+        )
+    
+
+'''
+    View to return Details of the particular Customer and Merchant
+'''
+
+class CustomerDetails(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, pk):
+        try:
+            customer_detail = Customer.objects.get(user_id=pk)
+        except Customer.DoesNotExist:
+            return Response(
+                {"detail": "Customer isn't registered yet"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        serializer = CustomerSerializer(customer_detail.user)
+        return Response(serializer.data)
+
+
+class MerchantDetails(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, pk):
+        try:
+            merchant = Merchant.objects.get(user_id=pk)
+        except Exception as e:    
+            return Response(
+                {
+                    "detail": "Merchant isn't registered yet"
+                }, status= status.HTTP_404_NOT_FOUND
+            )
+        serializer = MerchantSerializer(merchant)
+        return Response(serializer.data)
+        
