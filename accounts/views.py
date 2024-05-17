@@ -19,6 +19,8 @@ from .models import Customer, Merchant
 class CustomerRegistrationView(APIView):
     permission_classes = [AllowAny,]
 
+
+    # To Create a new Customer User account
     def post(self, request):
         serializer = CustomerRegistrationSerializer(data=request.data)
         if serializer.is_valid():
@@ -41,6 +43,11 @@ class CustomerRegistrationView(APIView):
             }, status =status.HTTP_400_BAD_REQUEST
         )
     
+    # To update the details in the customer accounts
+    
+
+
+
 class MerchantRegistrationView(APIView):
     permission_classes = [AllowAny,]
 
@@ -104,22 +111,7 @@ class UserLogoutView(APIView):
 '''
     View to list all the Customer and Merchant users
 '''
-# class CustomerList(APIView):
-#     permission_classes = [IsAdminUser]
 
-#     def get(self, request):
-#         '''
-#             return all the customer
-#         '''
-#         query = Customer.objects.all()
-#         customer_id = [Customer.user.id for Customer in query]
-#         usernames = [Customer.user.username for Customer in query]
-#         return Response(
-#             {
-#                 "id": customer_id,
-#                 "username": usernames
-#             }
-#         )
 class CustomerList(APIView):
     permission_classes = [IsAdminUser]
 
