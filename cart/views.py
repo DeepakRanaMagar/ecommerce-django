@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Cart, CartItems
-from .serializers import CartSerializer
+from .serializers import CartSerializer, CartItemSerializer
 from accounts.models import Customer
 
 from rest_framework.views import APIView
@@ -30,5 +30,30 @@ class CartView(APIView):
         return Response(
             {
                 "Error: Only Customers are allowed to create cart"
+            }, status=status.HTTP_401_UNAUTHORIZED
+        )
+    
+class CartItemsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        customer_id = request.user.id
+        is_customer = Customer.objects.filter(user_id=customer_id)
+        if is_customer:
+            serializer = CartItemSerializer(data=request.data)
+
+            if serializer.is_valid():
+                try:
+                    serializer.save()
+                    return Response(
+                        {
+                            "{request.user.username}, Items is successfully added to your Cart."
+                        }, status=status.HTTP_201_CREATED
+                    )
+                except Exception as e:
+                    raise e
+        return Response(
+            {
+                "Error: Only Customers are allowed to added Cart Items"
             }, status=status.HTTP_401_UNAUTHORIZED
         )
