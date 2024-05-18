@@ -30,19 +30,29 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
+
     'accounts.apps.AccountsConfig',
     'core.apps.CoreConfig',
     'products.apps.ProductsConfig',
     'product_merchant.apps.ProductMerchantConfig',
     'cart.apps.CartConfig',
+
+    'drf_spectacular' #lib for api docs
 ]
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    
     'DEFAULT_AUTHENTICATION_CLASSES':(
         'rest_framework.authentication.TokenAuthentication',
     ),
+    
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+}
+SPECTACULAR_SETTINGS = {
+    "TITLE" : "E-COMMERCE",
+    "DESCRIPTION" : "E-commerce server developed by Deepak Rana Magar. "
 }
 
 MIDDLEWARE = [
