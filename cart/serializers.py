@@ -2,43 +2,29 @@ from django.db import transaction
 from django.core.validators import MinValueValidator
 
 from .models import Cart, CartItems
+
 from accounts.models import Customer
-from accounts.serializers import CustomerSerializer
+
 from products.serializers import ProductSerializer
+from products.models import Product
 
 from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import status
 
-
-# class CartSerializer(serializers.Serializer):
-#     customer = CustomerSerializer(many=False, read_only=True)
-#     created_at = serializers.DateField()
-
-#     @transaction.atomic
-#     def save(self):
-#         try:
-#             cart = Cart.objects.create(
-#                 customer= self.validated_data['customer'],
-#                 created_at = self.validated_data['created_at']
-#             )
-#         except Exception as e:
-#             return Response(
-#                 {
-#                     "Error": str(e),
-#                 }, status=status.HTTP_400_BAD_REQUEST
-#             )
+'''
+    Serializer which creates the Cart of the requested Customer
+'''
 class CartSerializer(serializers.ModelSerializer):
-
+    customer = serializers.PrimaryKeyRelatedField(queryset = Customer.objects.all())
     class Meta:
         model = Cart
-        fields = '__all__'
+        fields = ['customer', 'created_at']
 
     @transaction.atomic
     def save(self):
-        customer = self.validated_data.get('customer')
+        customer = self.validated_data.get('customer') #fetch the field "customer" from the request
         created_at = self.validated_data.get('created_at')
-
         try:
             cart = Cart.objects.create(
                 customer = customer,
@@ -49,7 +35,8 @@ class CartSerializer(serializers.ModelSerializer):
 
 class CartItemSerializer(serializers.Serializer):
     cart = CartSerializer(read_only=True)
-    product = ProductSerializer(many=True, read_only=True)
+    # product = ProductSerializer(many=True, read_only=True)
+    product = serializers.PrimaryKeyRelatedField(queryset = Product.objects.all())
     quantity = serializers.IntegerField(validators=[MinValueValidator(1)])
 
     @transaction.atomic

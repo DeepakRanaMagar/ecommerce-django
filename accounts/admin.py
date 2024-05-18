@@ -4,7 +4,7 @@ from .models import Customer, Merchant
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ['get_id','name','username','email','dob']
+    list_display = ['id','name','username','email','dob']
     search_fields = ['name','username','email','dob']
     
     def name(self, obj):
@@ -22,7 +22,7 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(Merchant)
 class MerchantAdmin(admin.ModelAdmin):
-    list_display = ['get_id','merchant_name', 'pan_no', 'name', 'username', 'email']
+    list_display = ['id','merchant_name', 'pan_no', 'name', 'username', 'email']
     search_fields = ['merchant_name', 'pan_no', 'name', 'username', 'email']
 
     def name(self, obj):

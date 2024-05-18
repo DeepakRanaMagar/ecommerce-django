@@ -8,53 +8,74 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
+
 class CartView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        customer_id = request.user.id
-        print(customer_id)
-        is_customer = Customer.objects.filter(user_id=customer_id)
-        if is_customer:
-            serializer = CartSerializer(data=request.data)
+        user = (
+            request.user
+        )  # fetch the request sending user, but we need to verify whether the 'user' is customer or merchant
+        # print(customer)
+        """
+            other concept: Passing <int: pk> to represent the user id but will only represent 'id' of default Django Auth Model
+        """
+        try:  # exception handling
+            is_customer = Customer.objects.get(
+                user=user
+            )  # fetch the user from the Customer DB if the requested user matches
+            # print(is_customer.id)s
+        except (
+            Customer.DoesNotExist
+        ) as e:  # if the is_customer condition fails performs following code
+            return Response(
+                {"Error: Only Customers are allowed to create a Cart"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+        request.data["customer"] = is_customer.id
+        serializer = CartSerializer(
+            data=request.data
+        )  # passes the request.data into the serializer i.e CartSerializer
+        if serializer.is_valid():  # checks the validity
+            try:
+                serializer.save()  # saves the serialized data
+                return Response(
+                    {f"{request.user.first_name}, Your Cart is successfully created."},
+                    status=status.HTTP_201_CREATED,
+                )
+            except Exception as e:
+                return Response(str(e))
 
-            if serializer.is_valid():
-                try:
-                    serializer.save()
-                    return Response(
-                        {
-                            "{request.user.username}, Your Cart is successfully created."
-                        }, status=status.HTTP_201_CREATED
-                    )
-                except Exception as e:
-                    raise e
-        return Response(
-            {
-                "Error: Only Customers are allowed to create cart"
-            }, status=status.HTTP_401_UNAUTHORIZED
-        )
-    
+
 class CartItemsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        customer_id = request.user.id
-        is_customer = Customer.objects.filter(user_id=customer_id)
-        if is_customer:
-            serializer = CartItemSerializer(data=request.data)
+        user = request.user  # fetching the unverified request user
 
-            if serializer.is_valid():
-                try:
-                    serializer.save()
-                    return Response(
-                        {
-                            "{request.user.username}, Items is successfully added to your Cart."
-                        }, status=status.HTTP_201_CREATED
-                    )
-                except Exception as e:
-                    raise e
+        try:
+            customer = Customer.objects.get(
+                user=user
+            )  # verifying the category of the requesting user
+        except Customer.DoesNotExist as e:
+            return Response(
+                {"Error: Only Customers are allowed to add items their Cart"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
+
+        serializer = CartItemSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                serializer.save()
+                return Response(
+                    {
+                        f"{request.user.username}, Items is successfully added to your Cart."
+                    },
+                    status=status.HTTP_201_CREATED,
+                )
+            except Exception as e:
+                raise e
         return Response(
-            {
-                "Error: Only Customers are allowed to added Cart Items"
-            }, status=status.HTTP_401_UNAUTHORIZED
+            {"Error: Only Customers are allowed to added Cart Items"},
+            status=status.HTTP_401_UNAUTHORIZED,
         )
