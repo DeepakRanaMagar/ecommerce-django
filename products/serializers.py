@@ -22,5 +22,5 @@ class ProductSerializer(serializers.ModelSerializer):
     category = SubCatalogSerializer(read_only=True)
     class Meta:
         model = Product
-        fields = ['category','name', 'description', 'price']
+        fields = ['id','category','name', 'description', 'price']
 
