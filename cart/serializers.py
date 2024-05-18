@@ -36,7 +36,16 @@ class CartSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def save(self):
-        pass
+        customer = self.validated_data.get('customer')
+        created_at = self.validated_data.get('created_at')
+
+        try:
+            cart = Cart.objects.create(
+                customer = customer,
+                created_at = created_at
+            )        
+        except Exception as e:
+            raise e
 
 class CartItemSerializer(serializers.Serializer):
     cart = CartSerializer(read_only=True)
