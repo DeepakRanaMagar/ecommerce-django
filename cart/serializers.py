@@ -2,9 +2,11 @@ from django.db import transaction
 from django.core.validators import MinValueValidator
 
 from .models import Cart, CartItems
+
 from accounts.models import Customer
-from accounts.serializers import CustomerSerializer
+
 from products.serializers import ProductSerializer
+from products.models import Product
 
 from rest_framework import serializers
 from rest_framework.response import Response
@@ -23,7 +25,6 @@ class CartSerializer(serializers.ModelSerializer):
     def save(self):
         customer = self.validated_data.get('customer') #fetch the field "customer" from the request
         created_at = self.validated_data.get('created_at')
-        print(customer)
         try:
             cart = Cart.objects.create(
                 customer = customer,
@@ -34,7 +35,8 @@ class CartSerializer(serializers.ModelSerializer):
 
 class CartItemSerializer(serializers.Serializer):
     cart = CartSerializer(read_only=True)
-    product = ProductSerializer(many=True, read_only=True)
+    # product = ProductSerializer(many=True, read_only=True)
+    product = serializers.PrimaryKeyRelatedField(queryset = Product.objects.all())
     quantity = serializers.IntegerField(validators=[MinValueValidator(1)])
 
     @transaction.atomic
