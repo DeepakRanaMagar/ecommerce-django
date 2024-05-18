@@ -10,24 +10,9 @@ from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework import status
 
-
-# class CartSerializer(serializers.Serializer):
-#     customer = CustomerSerializer(many=False, read_only=True)
-#     created_at = serializers.DateField()
-
-#     @transaction.atomic
-#     def save(self):
-#         try:
-#             cart = Cart.objects.create(
-#                 customer= self.validated_data['customer'],
-#                 created_at = self.validated_data['created_at']
-#             )
-#         except Exception as e:
-#             return Response(
-#                 {
-#                     "Error": str(e),
-#                 }, status=status.HTTP_400_BAD_REQUEST
-#             )
+'''
+    Serializer which creates the Cart of the requested Customer
+'''
 class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -36,9 +21,9 @@ class CartSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def save(self):
-        customer = self.validated_data.get('customer')
+        customer = self.validated_data.get('customer') #fetch the field "customer" from the request
         created_at = self.validated_data.get('created_at')
-
+        print(customer)
         try:
             cart = Cart.objects.create(
                 customer = customer,
