@@ -113,7 +113,7 @@ class UserLogoutView(APIView):
 '''
 
 class CustomerList(APIView):
-    permission_classes = [IsAdminUser]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         '''
@@ -129,7 +129,7 @@ class CustomerList(APIView):
     
     
 class MerchantList(APIView):
-    permission_classes = [IsAdminUser]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         '''

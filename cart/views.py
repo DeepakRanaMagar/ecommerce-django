@@ -13,6 +13,7 @@ class CartView(APIView):
 
     def post(self, request):
         customer_id = request.user.id
+        print(customer_id)
         is_customer = Customer.objects.filter(user_id=customer_id)
         if is_customer:
             serializer = CartSerializer(data=request.data)
