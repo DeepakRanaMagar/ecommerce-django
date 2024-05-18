@@ -13,23 +13,22 @@ class CartView(APIView):
 
     def post(self, request):
         customer = request.user
-        # print(customer)
         is_customer = Customer.objects.get(user=customer)
         if is_customer:
             request.data['customer'] = is_customer.id
             serializer = CartSerializer(data=request.data)
-            print(serializer)
             if serializer.is_valid():
                 try:
                     serializer.save()
                     return Response(
                         {
-                            f"{request.user.username}, Your Cart is successfully created."
+                            f"{request.user.first_name}, Your Cart is successfully created."
                         }, status=status.HTTP_201_CREATED
                     )
                 except Exception as e:
                     raise e
-        return Response(
+        else:
+            return Response(
             {
                 "Error: Only Customers are allowed to create cart"
             }, status=status.HTTP_401_UNAUTHORIZED
@@ -49,7 +48,7 @@ class CartItemsView(APIView):
                     serializer.save()
                     return Response(
                         {
-                            "{request.user.username}, Items is successfully added to your Cart."
+                            f"{request.user.username}, Items is successfully added to your Cart."
                         }, status=status.HTTP_201_CREATED
                     )
                 except Exception as e:

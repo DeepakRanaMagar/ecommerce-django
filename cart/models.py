@@ -5,7 +5,7 @@ from products.models import Product
 
 class Cart(models.Model):
     customer = models.OneToOneField(Customer, verbose_name='customer', on_delete=models.CASCADE)
-    created_at = models.DateField(auto_now_add=True, verbose_name='created_at' )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='created_at' )
 
     def __str__(self):
         return f"Cart of {self.customer.user.username}"
