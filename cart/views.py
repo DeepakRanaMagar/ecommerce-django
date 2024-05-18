@@ -65,7 +65,7 @@ class CartItemsView(APIView):
             is_customer = Customer.objects.get(
                 user=user
             )  # fetch the user from the Customer DB if the requested user matches
-            # print(is_customer.id)s
+            # print(is_customer.id)
         except (
             Customer.DoesNotExist
         ) as e:  # if the is_customer condition fails performs following code
@@ -73,7 +73,6 @@ class CartItemsView(APIView):
                 {"Error: Only Customers are allowed to create a Cart"},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
-        # request.data["customer"] = is_customer.id
         cart, created = Cart.objects.get_or_create(customer=is_customer)
         request.data["cart"] = cart.id
         # print(request.data)
@@ -97,42 +96,3 @@ class CartItemsView(APIView):
                 "something went wrong"
             }, status=status.HTTP_403_FORBIDDEN
         )
-
-# class CartItemsView(APIView):
-#     permission_classes = [IsAuthenticated]
-
-#     def post(self, request):
-#         user = request.user  # fetching the unverified request user
-        
-#         try:
-            
-#             customer = Customer.objects.get(
-#                 user=user
-#             )  # verifying the category of the requesting user
-#             return Response({"you are a customer"})
-        
-#         except Customer.DoesNotExist as e:
-
-#             return Response(
-#                 {
-#                     "Error: Only Customers are allowed to add items their Cart"
-#                 },
-#                 status=status.HTTP_401_UNAUTHORIZED,
-#             )
-        
-#         serializer = CartItemSerializer(data=request.data)
-
-#         if serializer.is_valid():
-#             try:
-#                 serializer.save()
-#                 return Response(
-#                     {f"{request.user.username}, Items is successfully added to your Cart."},
-#                     status=status.HTTP_201_CREATED,
-#                 )
-#             except Exception as e:
-#                 raise e
-
-#         return Response(
-#             {"Error: Only Customers are allowed to added Cart Items"},
-#             status=status.HTTP_401_UNAUTHORIZED,
-#         )
