@@ -14,10 +14,10 @@ from rest_framework import status
     Serializer which creates the Cart of the requested Customer
 '''
 class CartSerializer(serializers.ModelSerializer):
-
+    customer = serializers.PrimaryKeyRelatedField(queryset = Customer.objects.all())
     class Meta:
         model = Cart
-        fields = '__all__'
+        fields = ['customer', 'created_at']
 
     @transaction.atomic
     def save(self):

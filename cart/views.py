@@ -12,18 +12,19 @@ class CartView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        customer_id = request.user.id
-        print(customer_id)
-        is_customer = Customer.objects.filter(user_id=customer_id)
+        customer = request.user
+        # print(customer)
+        is_customer = Customer.objects.get(user=customer)
         if is_customer:
+            request.data['customer'] = is_customer.id
             serializer = CartSerializer(data=request.data)
-
+            print(serializer)
             if serializer.is_valid():
                 try:
                     serializer.save()
                     return Response(
                         {
-                            "{request.user.username}, Your Cart is successfully created."
+                            f"{request.user.username}, Your Cart is successfully created."
                         }, status=status.HTTP_201_CREATED
                     )
                 except Exception as e:
