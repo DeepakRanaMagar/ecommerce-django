@@ -6,16 +6,6 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 '''
-    Product detail view
-'''
-class ProductView(APIView):
-    permission_classes = [AllowAny, ]
-    
-    def get(self, request):
-        queryset = Product.objects.all()
-        serializer = ProductSerializer(queryset, many=True)
-        return Response(serializer.data)
-'''
     number of catalog view
 '''
 class CatalogView(APIView):
@@ -37,12 +27,22 @@ class SubCatalogView(APIView):
         return Response(serializer.data)
 
 '''
-    To get the PRODUCT DETAILS from the merchant 
+    Product detail view
 '''
-class SubCatalogView(APIView):
+class ProductView(APIView):
     permission_classes = [AllowAny, ]
     
     def get(self, request):
         queryset = Product.objects.all()
         serializer = ProductSerializer(queryset, many=True)
         return Response(serializer.data)
+# '''
+#     To get the PRODUCT DETAILS from the merchant 
+# '''
+# class SubCatalogView(APIView):
+#     permission_classes = [AllowAny, ]
+    
+#     def get(self, request):
+#         queryset = Product.objects.all()
+#         serializer = ProductSerializer(queryset, many=True)
+#         return Response(serializer.data)

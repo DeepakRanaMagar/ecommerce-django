@@ -33,23 +33,31 @@ class CartSerializer(serializers.ModelSerializer):
         except Exception as e:
             raise e
 
-class CartItemSerializer(serializers.Serializer):
-    cart = CartSerializer(read_only=True)
-    # product = ProductSerializer(many=True, read_only=True)
+class CartItemSerializer(serializers.ModelSerializer):
+    cart = serializers.PrimaryKeyRelatedField(queryset=Cart.objects.all(), required=False)
     product = serializers.PrimaryKeyRelatedField(queryset = Product.objects.all())
     quantity = serializers.IntegerField(validators=[MinValueValidator(1)])
 
-    @transaction.atomic
-    def save(self):
-        try:
-            cart_items = CartItems.objects.create(
-                cart = self.validated_data['cart'],
-                product = self.validated_data['product'],
-                quantity = self.validated_data['quantity']
-            )
-        except Exception as e:
-            return Response(
-                {
-                    "Exception": str(e)
-                }, status=status.HTTP_400_BAD_REQUEST
-            )
+    class Meta:
+        model = CartItems
+        fields = ['cart', 'product', 'quantity']
+
+    def create(self, validated_data):
+        return CartItems.objects.create(**validated_data)
+
+    # @transaction.atomic
+    # def save(self):
+    #     try:
+    #         cart_items = CartItems.objects.create(
+    #             cart = self.validated_data.get('cart'),
+    #             product = self.validated_data.get('product'),
+    #             quantity = self.validated_data.get('quantity')
+    #         )
+    #         print(cart_items)
+        
+    #     except Exception as e:
+    #         return Response(
+    #             {
+    #                 "Exception": str(e)
+    #             }, status=status.HTTP_400_BAD_REQUEST,
+    #         )
