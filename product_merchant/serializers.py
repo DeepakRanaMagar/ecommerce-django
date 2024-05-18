@@ -42,7 +42,7 @@ class CatalogSerializer(serializers.Serializer):
 '''
 
 class SubCatalogSerializer(serializers.Serializer):
-    catalog = serializers.PrimaryKeyRelatedField(queryset=Catalog.objects.all())
+    catalog = serializers.PrimaryKeyRelatedField(queryset=Catalog.objects.all()) #primary key relation to Catalog models because everytable has a unique 'id' field
     name = serializers.CharField()  #name of sub-catalog that comes from the request
     
     def validate(self, data):   # for the validation of catalog name 
