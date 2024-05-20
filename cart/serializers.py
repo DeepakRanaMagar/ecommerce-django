@@ -42,5 +42,5 @@ class CartItemSerializer(serializers.ModelSerializer):
         model = CartItems
         fields = ['cart', 'product', 'quantity']
 
-    def create(self, validated_data): #create() method
+    def create(self, validated_data):   #create() method
         return CartItems.objects.create(**validated_data)
