@@ -15,5 +15,9 @@ class CartItems(models.Model):
     product = models.ForeignKey(Product, verbose_name='product', on_delete=models.CASCADE) #relation with the PRODUCT table of products app
     quantity = models.PositiveIntegerField(default=1, verbose_name='quantity')
 
+    class Meta:
+        verbose_name = 'CartItem'
+        verbose_name_plural = 'Cart Items'
+
     def __str__(self):
         return f"{self.quantity} of {self.product.name}"

@@ -21,7 +21,7 @@ ALLOWED_HOSTS = ["*",]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
-    # 'django.contrib.admindocs',
+    'django.contrib.admindocs',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -30,13 +30,13 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'rest_framework.authtoken',
-
+    'address',  #Bills: Address
 
     'accounts.apps.AccountsConfig',
-    'core.apps.CoreConfig',
     'products.apps.ProductsConfig',
     'product_merchant.apps.ProductMerchantConfig',
     'cart.apps.CartConfig',
+    'bills.apps.BillsConfig',
 
     'drf_spectacular' #lib for api docs
 ]
