@@ -1,16 +1,18 @@
-from django.db import transaction
 from django.core.validators import MinValueValidator
+from django.db import transaction
+
+from rest_framework import serializers
+from rest_framework.response import Response
+from rest_framework import status
 
 from .models import Cart, CartItems
 
 from accounts.models import Customer
 
-from products.serializers import ProductSerializer
 from products.models import Product
 
-from rest_framework import serializers
-from rest_framework.response import Response
-from rest_framework import status
+from products.serializers import ProductSerializer
+
 
 '''
     Serializer which creates the Cart of the requested Customer
