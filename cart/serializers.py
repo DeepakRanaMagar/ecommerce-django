@@ -16,9 +16,9 @@ from rest_framework import status
     Serializer which creates the Cart of the requested Customer
 '''
 class CartSerializer(serializers.ModelSerializer):
-    customer = serializers.PrimaryKeyRelatedField(queryset = Customer.objects.all())
+    customer = serializers.PrimaryKeyRelatedField(queryset = Customer.objects.all()) #Primary Key relation with all the objects present in the Customer DB
     class Meta:
-        model = Cart
+        model = Cart #CART DB
         fields = ['customer', 'created_at']
 
     @transaction.atomic
@@ -42,22 +42,5 @@ class CartItemSerializer(serializers.ModelSerializer):
         model = CartItems
         fields = ['cart', 'product', 'quantity']
 
-    def create(self, validated_data):
+    def create(self, validated_data): #create() method
         return CartItems.objects.create(**validated_data)
-
-    # @transaction.atomic
-    # def save(self):
-    #     try:
-    #         cart_items = CartItems.objects.create(
-    #             cart = self.validated_data.get('cart'),
-    #             product = self.validated_data.get('product'),
-    #             quantity = self.validated_data.get('quantity')
-    #         )
-    #         print(cart_items)
-        
-    #     except Exception as e:
-    #         return Response(
-    #             {
-    #                 "Exception": str(e)
-    #             }, status=status.HTTP_400_BAD_REQUEST,
-    #         )
