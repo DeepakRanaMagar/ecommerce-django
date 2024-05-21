@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'ecommerce_root.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "/home/suman/Downloads/OpenSourceContributions/ecommerce-django/db.sqlite3",
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
