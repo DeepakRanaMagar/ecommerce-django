@@ -30,7 +30,6 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'rest_framework.authtoken',
-    'address',  #Bills: Address
 
     'accounts.apps.AccountsConfig',
     'products.apps.ProductsConfig',
