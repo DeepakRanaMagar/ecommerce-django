@@ -11,7 +11,7 @@ class Cart(models.Model):
         return f"Cart of {self.customer.user.username}"
 
 class CartItems(models.Model):
-    cart = models.ForeignKey(Cart, verbose_name='cart', on_delete=models.CASCADE)    #relation with CART table as CartItems belongs to a table
+    cart = models.ForeignKey(Cart,related_name='cart', verbose_name='cart', on_delete=models.CASCADE)    #relation with CART table as CartItems belongs to a table
     product = models.ForeignKey(Product, verbose_name='product', on_delete=models.CASCADE) #relation with the PRODUCT table of products app
     quantity = models.PositiveIntegerField(default=1, verbose_name='quantity')
 
