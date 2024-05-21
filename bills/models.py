@@ -20,7 +20,6 @@ class Bill(models.Model):
     has_paid = models.BooleanField(_("has paid"))
     payment_method = models.CharField(_("Payment Method"),choices=PAYMENT_CHOICES, max_length=50)
 
-
     class Meta:
         verbose_name = 'Bill'
         verbose_name_plural = 'Billings'
