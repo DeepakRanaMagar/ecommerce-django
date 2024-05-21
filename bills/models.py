@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from address.models import AddressField
 from accounts.models import Customer
-
+from cart.models import Cart
 
 # Create your models here.
 
@@ -14,7 +14,8 @@ PAYMENT_CHOICES = {
 }
 
 class Bill(models.Model):
-    # customer = 
+    customer = models.ForeignKey(Customer, verbose_name=_("customer"), on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, verbose_name=_("cart"), on_delete=models.CASCADE)
     shipping_address = AddressField(related_name='ship_address',null=True, blank=True)
     billing_address = AddressField(related_name='bill_address',null=True, blank=True)
     has_paid = models.BooleanField(_("has paid"))
