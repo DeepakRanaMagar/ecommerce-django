@@ -3,4 +3,5 @@ from .models import Bill
 
 @admin.register(Bill)
 class BillAdmin(admin.ModelAdmin):
-    list_display = ['shipping_address', 'billing_address', 'has_paid']
+    list_display = ['customer', 'cart','shipping_address', 'billing_address', 'has_paid']
+    search_display = ['customer', 'cart','shipping_address', 'billing_address', 'has_paid']

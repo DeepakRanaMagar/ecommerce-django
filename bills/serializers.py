@@ -12,7 +12,7 @@ class BillSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = Bill
-        exclude = 'id'
+        fields = '__all__'
     
     def create(self, validated_data):
         return Bill.objects.create(**validated_data)
