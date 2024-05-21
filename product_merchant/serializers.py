@@ -11,19 +11,19 @@ from rest_framework.response import Response
     Serialization of the input of admin for the Catalog
 '''
 
-existing_catalog = Catalog.objects.all()    #query to fetch existing objects of catalog
-existing_catalog_list = [item.name for item in existing_catalog]    #converting into list
 
 class CatalogSerializer(serializers.Serializer):
     name = serializers.CharField()
+    existing_catalog = Catalog.objects.all()    #query to fetch existing objects of catalog
+    # existing_catalog_list = [item.name for item in existing_catalog]    #converting into list
 
-    def validate(self, data):   # for the validation of catalog name 
-        incoming_name = data.get("name")    #input name of catalog from the front end
-        if incoming_name in existing_catalog_list:  #validation condition
-            raise serializers.ValidationError(
-                'Catalog already exists'
-            )
-        return data
+    # def validate(self, data):   # for the validation of catalog name 
+    #     incoming_name = data.get("name")    #input name of catalog from the front end
+    #     if incoming_name in existing_catalog_list:  #validation condition
+    #         raise serializers.ValidationError(
+    #             'Catalog already exists'
+    #         )
+    #     return data
 
     @transaction.atomic
     def save(self): #saving the serialized data
