@@ -4,10 +4,10 @@ from .models import Cart, CartItems
 
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['customer','created_at']
+    list_display = ['id','customer','created_at']
     search_fields = ['customer']
 
 @admin.register(CartItems)
 class CartItemsAdmin(admin.ModelAdmin):
-    list_display = ['cart','product', 'quantity']
+    list_display = ['id','cart','product', 'quantity']
     search_display = ['cart','product', 'quantity']

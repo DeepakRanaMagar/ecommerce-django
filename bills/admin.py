@@ -3,4 +3,4 @@ from .models import Bill
 
 @admin.register(Bill)
 class BillAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['shipping_address', 'billing_address', 'has_paid']
