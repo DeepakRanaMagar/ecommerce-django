@@ -1,6 +1,6 @@
-# ecommerce-django
+# E-commerce Server
 
-Welcome to the ecommerce-django project! This is a backend server built with Django for an e-commerce application. Developers are encouraged to build the frontend based on this server.
+This is a backend server built with Django for an E-commerce application. Developers are encouraged to build the frontend based on this server.
 
 ## Setup Guide
 
