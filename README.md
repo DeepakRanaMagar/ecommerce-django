@@ -58,6 +58,6 @@ If you would like to contribute to this project, please follow these guidelines:
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
 
 ## Contact
-If you have any questions or suggestions, feel free to reach out to us at [email@example.com](mailto:dev.dpkrana@gmail.com).
+If you have any questions or suggestions, feel free to reach out to us at [dev.dpkrana@gmail.com](mailto:dev.dpkrana@gmail.com).
 
 Happy coding!
